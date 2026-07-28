@@ -1,0 +1,35 @@
+.empty-state{
+    max-width:850px;
+    margin:40px auto 80px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:60px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.empty-icon{
+    font-size:55px;
+    margin-bottom:20px;
+}
+
+.empty-state h2{
+    color:#111827;
+    margin-bottom:10px;
+}
+
+.empty-state p{
+    color:#4F46E5;
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+.empty-state span{
+    color:#6B7280;
+    line-height:1.7;
+}
