@@ -1,0 +1,204 @@
+/* ==========================================
+   QUIZ PAGE
+========================================== */
+
+.quiz-container{
+
+    min-height:100vh;
+
+    padding:50px 20px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #eef2ff,
+        #f8fbff
+    );
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    font-family:'Poppins',sans-serif;
+
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.quiz-header{
+
+    width:100%;
+
+    max-width:850px;
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+    animation:fadeIn .6s ease;
+
+}
+
+.quiz-header h1{
+
+    font-size:3rem;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+    margin-bottom:12px;
+
+}
+
+.quiz-header p{
+
+    color:#64748b;
+
+    font-size:1.05rem;
+
+    margin-bottom:22px;
+
+}
+
+/* ==========================================
+   TOPIC
+========================================== */
+
+.topic-pill{
+
+    display:inline-block;
+
+    padding:12px 28px;
+
+    border-radius:50px;
+
+    background:linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    color:white;
+
+    font-weight:600;
+
+    margin-bottom:30px;
+
+    box-shadow:
+    0 12px 30px rgba(99,102,241,.25);
+
+}
+
+/* ==========================================
+   QUESTION INFO
+========================================== */
+
+.question-info{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:12px;
+
+    font-weight:600;
+
+    color:#475569;
+
+}
+
+/* ==========================================
+   PROGRESS BAR
+========================================== */
+
+.progress-container{
+
+    width:100%;
+
+    height:12px;
+
+    background:#e2e8f0;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    margin-bottom:10px;
+
+}
+
+.progress-bar{
+
+    height:100%;
+
+    border-radius:30px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    transition:.4s ease;
+
+}
+
+/* ==========================================
+   ANIMATION
+========================================== */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:768px){
+
+.quiz-header h1{
+
+font-size:2.2rem;
+
+}
+
+.question-info{
+
+font-size:.9rem;
+
+}
+
+.topic-pill{
+
+font-size:.9rem;
+
+padding:10px 22px;
+
+}
+
+}

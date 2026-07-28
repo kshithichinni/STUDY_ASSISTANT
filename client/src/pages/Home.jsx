@@ -1,75 +1,68 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import TopicInput from "../components/TopicInput";
-import EmptyState from "../components/EmptyState";
-import Flashcard from "../components/Flashcard";
 import API from "../services/api";
 
-import "../styles/home.css";
+import "../styles/Home.css";
 
 function Home() {
-  const [flashcards, setFlashcards] = useState([]);
-  const [currentCard, setCurrentCard] = useState(0);
-  const [studyTopic, setStudyTopic] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [lastRequest, setLastRequest] = useState(null);
 
   const requestIdRef = useRef(0);
+  const navigate = useNavigate();
 
   const handleGenerate = async ({ topic, difficulty }) => {
     const requestId = ++requestIdRef.current;
-    try {
-    setIsLoading(true);
-    setError("");
 
-    setLastRequest({
+    try {
+      setIsLoading(true);
+      setError("");
+
+      setLastRequest({
         topic,
         difficulty,
-    });
+      });
 
-    setFlashcards([]);
-    setCurrentCard(0);
+      const response = await API.post("/generate", {
+        topic,
+        difficulty,
+      });
 
-    const response = await API.post("/generate", {
-      topic,
-      difficulty,
-    });
-    
-    if (requestId !== requestIdRef.current) {
-    return;
-    }
+      if (requestId !== requestIdRef.current) return;
 
-    const cards = response.data?.flashcards;
+      const cards = response.data?.flashcards;
 
-    if (!Array.isArray(cards) || cards.length === 0) {
+      if (!Array.isArray(cards) || cards.length === 0) {
         throw new Error("Invalid flashcard data received.");
-    }
-    setFlashcards(cards);
-    setCurrentCard(0);
-    setStudyTopic(topic);
-  } catch (error) {
-    console.error(error);
-    setError(
-    error.message === "Invalid flashcard data received."
-      ? "The AI returned an unexpected response. Please try again."
-      : "Unable to generate flashcards. Please check your connection and try again."
-  );
+      }
 
-  } finally {
-    setIsLoading(false);
-  }
-};
+      const title = topic.split("\n")[0].trim();
 
-  const nextCard = () => {
-    if (currentCard < flashcards.length - 1) {
-      setCurrentCard(currentCard + 1);
-    }
-  };
+      const trimmedTitle =
+        title.length > 50
+          ? title.slice(0, 50) + "..."
+          : title;
 
-  const prevCard = () => {
-    if (currentCard > 0) {
-      setCurrentCard(currentCard - 1);
+      navigate("/flashcards", {
+        state: {
+          flashcards: cards,
+          studyTopic: trimmedTitle,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+
+      setError(
+        error.message ===
+          "Invalid flashcard data received."
+          ? "The AI returned an unexpected response. Please try again."
+          : "Unable to generate flashcards. Please check your connection and try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -78,102 +71,115 @@ function Home() {
       <Navbar />
 
       <main className="home">
+
+        <div className="bg-circle bg-one"></div>
+        <div className="bg-circle bg-two"></div>
+
         <section className="hero">
-          <p className="hero-badge">
-            ✨ Smart Revision with AI
-          </p>
+
+          <div className="hero-badge">
+            ✨ Powered by Gemini AI
+          </div>
 
           <h1>
-            Turn Your Notes into
-            <span> Flashcards & Quizzes</span>
+
+            Learn Smarter with
+
+            <span>
+
+              AI-Powered Flashcards
+
+            </span>
+
           </h1>
 
           <p className="hero-description">
-            Create AI-powered study material in seconds.
-            Paste your notes, choose your difficulty level,
-            and revise smarter with interactive flashcards
-            and quizzes.
+
+            Generate intelligent flashcards from any topic,
+            revise concepts interactively,
+            and instantly test your knowledge with quizzes.
+
           </p>
+
         </section>
 
         <TopicInput
-            onGenerate={handleGenerate}
-            isLoading={isLoading}
+          onGenerate={handleGenerate}
+          isLoading={isLoading}
         />
+
         {error && (
-  <div className="error-message">
-    <p>{error}</p>
 
-    <button
-      className="retry-btn"
-      onClick={() => {
-        if (lastRequest) {
-            handleGenerate(lastRequest);
-        }
-      }}
-    >
-      Retry
-    </button>
-  </div>
-)}
+          <div className="error-message">
 
-        {flashcards.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <div className="flashcards-section">
+            <h3>⚠ Something went wrong</h3>
 
-  <h3 className="topic-title">
-    📚 Studying: {studyTopic}
-  </h3>
+            <p>{error}</p>
 
-  <Flashcard card={flashcards[currentCard]} />
+            <button
+              className="retry-btn"
+              onClick={() => {
+                if (lastRequest) {
+                  handleGenerate(lastRequest);
+                }
+              }}
+            >
+              Try Again
+            </button>
 
-  <div className="progress-container">
-
-    <div className="progress-info">
-
-      <span>Progress</span>
-
-      <span>
-        {currentCard + 1} of {flashcards.length}
-      </span>
-
-    </div>
-
-    <div className="progress-bar">
-
-      <div
-        className="progress-fill"
-        style={{
-          width: `${((currentCard + 1) / flashcards.length) * 100}%`,
-        }}
-      ></div>
-
-    </div>
-
-  </div>
-
-            <div className="navigation">
-              <button
-                onClick={prevCard}
-                disabled={currentCard === 0}
-              >
-                Previous
-              </button>
-
-              <span>
-                {currentCard + 1} / {flashcards.length}
-              </span>
-
-              <button
-                onClick={nextCard}
-                disabled={currentCard === flashcards.length - 1}
-              >
-                Next
-              </button>
-            </div>
           </div>
+
         )}
+
+        <section className="features">
+
+          <div className="feature-card">
+
+            <div className="feature-icon">
+              ⚡
+            </div>
+
+            <h3>AI Generated</h3>
+
+            <p>
+              Generate high-quality flashcards
+              instantly using Gemini AI.
+            </p>
+
+          </div>
+
+          <div className="feature-card">
+
+            <div className="feature-icon">
+              📚
+            </div>
+
+            <h3>Interactive Learning</h3>
+
+            <p>
+              Flip flashcards, review concepts,
+              and retain knowledge effectively.
+            </p>
+
+          </div>
+
+          <div className="feature-card">
+
+            <div className="feature-icon">
+              📝
+            </div>
+
+            <h3>Smart Quiz</h3>
+
+            <p>
+              Test your understanding with
+              automatically generated quizzes.
+            </p>
+
+          </div>
+
+        </section>
+
       </main>
     </>
   );

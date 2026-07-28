@@ -1,0 +1,647 @@
+/* ===================================================
+                 QUIZ RESULT PAGE
+=================================================== */
+
+.result-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.result-card {
+
+    position: relative;
+
+    width: 100%;
+    max-width: 850px;
+
+    padding: 55px;
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,0.95);
+
+    backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 20px 60px rgba(67,56,202,0.15),
+        0 8px 20px rgba(0,0,0,0.08);
+
+    overflow: hidden;
+
+    animation: cardAppear .7s ease;
+}
+
+/* Decorative circles */
+
+.result-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #7c3aed,
+        #6366f1
+    );
+
+    opacity:.10;
+
+    top:-80px;
+    right:-80px;
+
+}
+
+.result-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    background:#38bdf8;
+
+    opacity:.08;
+
+    bottom:-70px;
+    left:-70px;
+
+}
+
+/* ===========================
+   ICON
+=========================== */
+
+.result-icon{
+
+    width:90px;
+    height:90px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:48px;
+
+    background:linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    color:white;
+
+    box-shadow:
+        0 15px 35px rgba(99,102,241,.35);
+
+    animation: floatIcon 3s ease infinite;
+
+}
+
+/* ===========================
+   TITLE
+=========================== */
+
+.result-title{
+
+    margin-top:28px;
+
+    text-align:center;
+
+    font-size:3rem;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+.performance-message{
+
+    text-align:center;
+
+    margin-top:15px;
+
+    font-size:1.2rem;
+
+    color:#475569;
+
+    font-weight:600;
+
+}
+
+/* ===========================
+   SCORE CIRCLE
+=========================== */
+
+.score-circle{
+
+    width:150px;
+    height:150px;
+
+    margin:40px auto;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+
+    box-shadow:
+        0 20px 40px rgba(99,102,241,.35);
+
+    transition:.4s;
+
+}
+
+.score-circle:hover{
+
+    transform:scale(1.05);
+
+}
+
+.score-percent{
+
+    font-size:3rem;
+
+    font-weight:600;
+
+}
+
+.score-label{
+
+    margin-top:6px;
+
+    font-size:1rem;
+
+    letter-spacing:2px;
+
+    opacity:.9;
+
+    text-transform:uppercase;
+
+}
+
+.score-text{
+
+    text-align:center;
+
+    margin-top:-10px;
+
+    font-size:2rem;
+
+    color:#4f46e5;
+
+    font-weight:700;
+
+}
+
+/* ===================================================
+   PREMIUM STATISTICS
+=================================================== */
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:22px;
+
+    margin-top:45px;
+
+    margin-bottom:45px;
+
+}
+
+.stat-card{
+
+    background:#ffffff;
+
+    border-radius:22px;
+
+    padding:30px 20px;
+
+    text-align:center;
+
+    border:1px solid #e5e7eb;
+
+    transition:.35s;
+
+    cursor:default;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.05);
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+        0 20px 40px rgba(99,102,241,.18);
+
+}
+
+.footer-text{
+    text-align:center;
+    margin:35px 0 25px;
+    color:#64748b;
+    font-size:1rem;
+    font-weight:500;
+}
+
+.correct-card{
+    background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+    border:2px solid #22c55e;
+}
+
+.wrong-card{
+    background:linear-gradient(135deg,#fef2f2,#fee2e2);
+    border:2px solid #ef4444;
+}
+
+.accuracy-card{
+    background:linear-gradient(135deg,#eff6ff,#dbeafe);
+    border:2px solid #3b82f6;
+}
+
+.stat-icon{
+
+    font-size:2.2rem;
+
+    display:block;
+
+    margin-bottom:12px;
+
+}
+
+.stat-card h3{
+
+    font-size:2rem;
+
+    color:#4338ca;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+.stat-card p{
+
+    color:#64748b;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+
+}
+
+/* ===================================================
+   BUTTON SECTION
+=================================================== */
+
+.result-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+/* ==============================
+   RETEST BUTTON
+============================== */
+
+.retest-btn{
+
+    padding:16px 34px;
+
+    border:none;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    background:linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    transition:.35s;
+
+    box-shadow:
+        0 12px 30px rgba(99,102,241,.30);
+
+}
+
+.retest-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 18px 35px rgba(99,102,241,.40);
+
+}
+
+/* ==============================
+   HOME BUTTON
+============================== */
+
+.home-btn{
+
+    padding:16px 34px;
+
+    border:none;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    background:#f8fafc;
+
+    color:#1e293b;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    transition:.35s;
+
+    border:2px solid #e2e8f0;
+
+}
+
+.home-btn:hover{
+
+    background:#eef2ff;
+
+    border-color:#6366f1;
+
+    transform:translateY(-4px);
+
+}
+
+/* ===================================================
+   HOVER EFFECT FOR ENTIRE CARD
+=================================================== */
+
+.result-card:hover{
+
+    transform:translateY(-5px);
+
+    transition:.4s;
+
+}
+
+/* ===================================================
+   PREMIUM DIVIDER
+=================================================== */
+
+.result-card hr{
+
+    border:none;
+
+    height:1px;
+
+    background:#e2e8f0;
+
+    margin:35px 0;
+
+}
+
+/* ===================================================
+   PREMIUM ANIMATIONS
+=================================================== */
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes floatIcon {
+
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+
+}
+
+@keyframes pulseGlow {
+
+    0% {
+        box-shadow:
+            0 20px 40px rgba(99,102,241,.25);
+    }
+
+    50% {
+        box-shadow:
+            0 25px 55px rgba(99,102,241,.45);
+    }
+
+    100% {
+        box-shadow:
+            0 20px 40px rgba(99,102,241,.25);
+    }
+
+}
+
+.score-circle{
+    animation:
+        pulseGlow 2.8s infinite,
+        cardAppear .7s ease;
+}
+
+/* ===================================================
+   BUTTON CLICK EFFECT
+=================================================== */
+
+.retest-btn:active,
+.home-btn:active{
+
+    transform:scale(.96);
+
+}
+
+/* ===================================================
+   CUSTOM SCROLLBAR
+=================================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#7c3aed;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#eef2ff;
+
+}
+
+/* ===================================================
+   RESPONSIVE
+=================================================== */
+
+@media (max-width:900px){
+
+    .result-card{
+
+        padding:40px 28px;
+
+    }
+
+    .stats-grid{
+
+        grid-template-columns:1fr;
+
+        gap:18px;
+
+    }
+
+    .score-circle{
+
+        width:160px;
+        height:160px;
+
+    }
+
+    .score-percent{
+
+        font-size:2.5rem;
+
+    }
+
+}
+
+@media (max-width:600px){
+
+    .result-title{
+
+        font-size:2rem;
+
+    }
+
+    .performance-message{
+
+        font-size:1rem;
+
+    }
+
+    .score-text{
+
+        font-size:1.5rem;
+
+    }
+
+    .result-buttons{
+
+        flex-direction:column;
+
+    }
+
+    .retest-btn,
+    .home-btn{
+
+        width:100%;
+
+    }
+
+    .result-card{
+
+        padding:30px 20px;
+
+    }
+
+}
+
+@media (max-width:400px){
+
+    .score-circle{
+
+        width:140px;
+        height:140px;
+
+    }
+
+    .score-percent{
+
+        font-size:2rem;
+
+    }
+
+    .result-title{
+
+        font-size:1.8rem;
+
+    }
+
+}
