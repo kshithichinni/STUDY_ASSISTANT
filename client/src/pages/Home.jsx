@@ -4,14 +4,17 @@ import TopicInput from "../components/TopicInput";
 import EmptyState from "../components/EmptyState";
 
 function Home() {
+  const handleGenerate = ({ topic, difficulty }) => {
+    console.log("Topic:", topic);
+    console.log("Difficulty:", difficulty);
+  };
+
   return (
     <>
       <Navbar />
 
       <main className="home">
-
         <section className="hero">
-
           <p className="hero-badge">
             ✨ Smart Revision with AI
           </p>
@@ -27,11 +30,11 @@ function Home() {
             and revise smarter with interactive flashcards
             and quizzes.
           </p>
-
         </section>
-        <TopicInput />
-        <EmptyState />
 
+        <TopicInput onGenerate={handleGenerate} />
+
+        <EmptyState />
       </main>
     </>
   );
