@@ -1,7 +1,7 @@
 import "../styles/topicInput.css";
 import { useState } from "react";
 
-function TopicInput({ onGenerate }) {
+function TopicInput({ onGenerate, isLoading }) {
   const [topic, setTopic] = useState("");
   const [difficulty, setDifficulty] = useState("Medium");
 
@@ -60,9 +60,13 @@ function TopicInput({ onGenerate }) {
         </div>
       </div>
 
-      <button className="generate-btn" onClick={handleGenerate}>
-        Generate Flashcards
-      </button>
+      <button
+        className="generate-btn"
+        onClick={handleGenerate}
+        disabled={isLoading}
+       >
+        {isLoading ? "Generating..." : "Generate Flashcards"}
+       </button>
     </section>
   );
 }

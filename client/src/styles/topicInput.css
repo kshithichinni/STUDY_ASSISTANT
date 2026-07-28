@@ -101,3 +101,8 @@
 
     box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35);
 }
+
+.generate-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

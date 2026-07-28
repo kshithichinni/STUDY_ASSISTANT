@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import TopicInput from "../components/TopicInput";
 import EmptyState from "../components/EmptyState";
@@ -11,21 +11,55 @@ function Home() {
   const [flashcards, setFlashcards] = useState([]);
   const [currentCard, setCurrentCard] = useState(0);
   const [studyTopic, setStudyTopic] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [lastRequest, setLastRequest] = useState(null);
+
+  const requestIdRef = useRef(0);
 
   const handleGenerate = async ({ topic, difficulty }) => {
+    const requestId = ++requestIdRef.current;
     try {
-      const response = await API.post("/generate", {
+    setIsLoading(true);
+    setError("");
+
+    setLastRequest({
         topic,
         difficulty,
-      });
+    });
 
-      setFlashcards(response.data.flashcards);
-      setCurrentCard(0);
-      setStudyTopic(topic);
-    } catch (error) {
-      console.error(error);
+    setFlashcards([]);
+    setCurrentCard(0);
+
+    const response = await API.post("/generate", {
+      topic,
+      difficulty,
+    });
+    
+    if (requestId !== requestIdRef.current) {
+    return;
     }
-  };
+
+    const cards = response.data?.flashcards;
+
+    if (!Array.isArray(cards) || cards.length === 0) {
+        throw new Error("Invalid flashcard data received.");
+    }
+    setFlashcards(cards);
+    setCurrentCard(0);
+    setStudyTopic(topic);
+  } catch (error) {
+    console.error(error);
+    setError(
+    error.message === "Invalid flashcard data received."
+      ? "The AI returned an unexpected response. Please try again."
+      : "Unable to generate flashcards. Please check your connection and try again."
+  );
+
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const nextCard = () => {
     if (currentCard < flashcards.length - 1) {
@@ -62,7 +96,26 @@ function Home() {
           </p>
         </section>
 
-        <TopicInput onGenerate={handleGenerate} />
+        <TopicInput
+            onGenerate={handleGenerate}
+            isLoading={isLoading}
+        />
+        {error && (
+  <div className="error-message">
+    <p>{error}</p>
+
+    <button
+      className="retry-btn"
+      onClick={() => {
+        if (lastRequest) {
+            handleGenerate(lastRequest);
+        }
+      }}
+    >
+      Retry
+    </button>
+  </div>
+)}
 
         {flashcards.length === 0 ? (
           <EmptyState />

@@ -35,7 +35,6 @@ Do not add markdown.
 Do not use \`\`\`.
 Do not explain anything.
 `;
-
     const result = await model.generateContent(prompt);
 
     const text = result.response.text();
