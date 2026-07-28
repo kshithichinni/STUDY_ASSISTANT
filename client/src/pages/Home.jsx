@@ -2,12 +2,21 @@ import Navbar from "../components/Navbar";
 import "../styles/home.css";
 import TopicInput from "../components/TopicInput";
 import EmptyState from "../components/EmptyState";
+import API from "../services/api";
 
 function Home() {
-  const handleGenerate = ({ topic, difficulty }) => {
-    console.log("Topic:", topic);
-    console.log("Difficulty:", difficulty);
-  };
+  const handleGenerate = async ({ topic, difficulty }) => {
+  try {
+    const response = await API.post("/generate", {
+      topic,
+      difficulty,
+    });
+
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <>
